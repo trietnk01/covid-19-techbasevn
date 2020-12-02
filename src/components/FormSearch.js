@@ -6,7 +6,7 @@ class FormSearch extends Component {
 		super(props);
 		this.state={
 			country_name:"",			
-		}		
+		}				
 	}
 	handleChange=(event)=>{		
 		this.setState({country_name:event.target.value});
@@ -15,12 +15,10 @@ class FormSearch extends Component {
 	  this.props.goSearch(this.state.country_name);
 	}
 	handleClear=()=>{
-		console.log("handleClear");
+		this.setState({country_name:""});
 	}		
-	componentDidUpdate(){
-        console.log("componentDidUpdate");
-    }	
-	render(){		
+		
+	render(){				
 		let str_search="";
 		if(this.state.country_name !==""){
 			str_search=this.state.country_name;

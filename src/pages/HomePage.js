@@ -5,22 +5,9 @@ class HomePage extends Component {
   constructor(props){
     super(props);
     this.state={
-      items:[]
+      items:[],           
     }
-  }
-  componentWillMount(){    
-    let data=[];
-    let url ='https://api.covid19api.com/country/south-africa/status/confirmed';
-    fetch(url)
-    .then((response)=>response.json())
-    .then((responseData)=>{
-    responseData.map((item,index)=>{
-      data.push({item});
-    });
-    this.setState({items:data});
-  });  
-}  
-
+  }  
   showElementBody(items){
     let xhtml=null;
     if(items.length > 0){
@@ -32,8 +19,32 @@ class HomePage extends Component {
     }
     return xhtml;
   }
+  setCovid19data(ctSlug){  
+    let data=[];         
+    if(ctSlug !== ""){       
+      let url ='https://api.covid19api.com/country/'+ctSlug+'/status/confirmed';      
+      fetch(url)
+      .then((response)=>response.json())
+      .then((responseData)=>{
+      responseData.map((item,index)=>{
+        data.push({item});
+      });        
+      this.setState({items:data});
+    }); 
+    }else{
+      this.setState({items:[]});
+    }   
+  }
+  componentWillMount(){
+    let {query_country_name}=this.props;
+    this.setCovid19data(query_country_name);    
+}
+componentWillReceiveProps(nextProps) {  
+  let {query_country_name}=nextProps;  
+  this.setCovid19data(query_country_name);
+}
 	render(){      
-      let {query_country_name,items}=this.state;                    
+      let {items}=this.state;                 
   return (    
     <div>                  
             <table className="table">
@@ -52,20 +63,16 @@ class HomePage extends Component {
           </tr>
         </thead>
         <tbody>          
-        {this.showElementBody(items)}    
+        {this.showElementBody(items)}
         </tbody>
       </table>
     </div>
-
-
- 
   );
   }
 }
 const mapStateToProps = state => {
   return {
       query_country_name: state.search,
-      items:state.ListCovid19
   }
 }
 export default connect(mapStateToProps,null)(HomePage);
