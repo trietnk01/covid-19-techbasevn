@@ -11,19 +11,22 @@ class FormSearch extends Component {
 	handleChange=(event)=>{		
 		this.setState({country_name:event.target.value});
 	}
-	handleSearch=()=>{
+	handleSearch=()=>{		
 	  this.props.goSearch(this.state.country_name);
 	}
 	handleClear=()=>{
 		console.log("handleClear");
-	}			
-	render(){
+	}		
+	componentDidUpdate(){
+        console.log("componentDidUpdate");
+    }	
+	render(){		
 		let str_search="";
 		if(this.state.country_name !==""){
 			str_search=this.state.country_name;
 		}else{
 			str_search=this.props.query_country_name;
-		}		
+		}			
 		return (
 			<form >					
               <div className="form-group">						
@@ -42,9 +45,9 @@ const mapStateToProps = state => {
         query_country_name: state.search
     }
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        goSearch: (query_country_name) => {
+const mapDispatchToProps = (dispatch, ownProps) => {	
+    return {		
+        goSearch: (query_country_name) => {			
             dispatch(actSearch(query_country_name)) ;
         }
     }

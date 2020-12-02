@@ -2,10 +2,10 @@ import * as types from './../constants/ActionType';
 
 const defaultState = '';
 
-const search = (state = defaultState, action) => {
+const search = (state = defaultState, action) => {	
 	switch(action.type){
 		case types.CHANGE_SEARCH:
-			return action.search;
+			return action.query_country_name;
 		default:
 			return state;
 	}

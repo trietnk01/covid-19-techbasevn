@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import FormSearch from "./../components/FormSearch";
-import {connect} from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,7 +7,7 @@ import {
 } from "react-router-dom";
 import routes from './../route-config';
 class App extends Component {    
-  render(){   
+  render(){         
     return (
       <Router>
         <div className="container">		
@@ -35,9 +34,5 @@ class App extends Component {
   }   
 }
 
-const mapStateToProps = state => {
-  return {
-      query_country_name: state.search
-  }
-}
-export default connect(mapStateToProps,null)(App);
+
+export default App;

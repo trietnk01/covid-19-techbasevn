@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Covid19DetailItem from "./../components/Covid19DetailItem";
+import {connect} from 'react-redux';
 class HomePage extends Component {
   constructor(props){
     super(props);
@@ -7,18 +8,19 @@ class HomePage extends Component {
       items:[]
     }
   }
-  componentWillMount(){
-      let data=[];
-      let url ='https://api.covid19api.com/country/south-africa/status/confirmed';
-      fetch(url)
-      .then((response)=>response.json())
-      .then((responseData)=>{
-      responseData.map((item,index)=>{
-        data.push({item});
-      });
-      this.setState({items:data});
+  componentWillMount(){    
+    let data=[];
+    let url ='https://api.covid19api.com/country/south-africa/status/confirmed';
+    fetch(url)
+    .then((response)=>response.json())
+    .then((responseData)=>{
+    responseData.map((item,index)=>{
+      data.push({item});
     });
-  }  
+    this.setState({items:data});
+  });  
+}  
+
   showElementBody(items){
     let xhtml=null;
     if(items.length > 0){
@@ -30,9 +32,8 @@ class HomePage extends Component {
     }
     return xhtml;
   }
-	render(){
-      let {items}=this.state;
-      
+	render(){      
+      let {query_country_name,items}=this.state;                    
   return (    
     <div>                  
             <table className="table">
@@ -61,5 +62,10 @@ class HomePage extends Component {
   );
   }
 }
-
-export default HomePage;
+const mapStateToProps = state => {
+  return {
+      query_country_name: state.search,
+      items:state.ListCovid19
+  }
+}
+export default connect(mapStateToProps,null)(HomePage);
