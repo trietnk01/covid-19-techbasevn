@@ -33,9 +33,7 @@ class FormSearch extends Component {
                 <input name="country_name" value={this.state.country_name} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter slug of country ..." />
                 <div className="input-group-btn btn-click">
                   <button type="button" className="btn btn-danger" onClick={this.handleSearch}>Search</button>
-                  <button type="button" className="btn btn-warning" onClick={this.handleClear}>Clear</button>
-				  <button type="button" className="btn btn-success" onClick={this.handleShowNotify}>Show</button>
-				  <button type="button" className="btn btn-danger" onClick={this.handleHideNotify}>Close</button>
+                  <button type="button" className="btn btn-warning" onClick={this.handleClear}>Clear</button>				  
                 </div>
               </div>
             </form>	

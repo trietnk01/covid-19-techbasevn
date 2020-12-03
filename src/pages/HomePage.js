@@ -56,8 +56,7 @@ class HomePage extends Component {
       )
     }
   }
-  setCovid19data(countrySlug){      
-    
+  setCovid19data(countrySlug){          
     if(countrySlug !== ""){
       let data=[];
       let url="https://api.covid19api.com/country/"+countrySlug+"/status/confirmed";
