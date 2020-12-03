@@ -21,8 +21,9 @@ class FormSearch extends Component {
 	render(){										
 		return (
 			<form className="form-search">					
-              <div className="form-group">						
-                <input name="country_name" value={this.state.country_name} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter artist name ..." />
+              <div className="form-group">	
+			  <div>Gõ chữ south-africa / china / palestine</div>					
+                <input name="country_name" value={this.state.country_name} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter slug of country ..." />
                 <div className="input-group-btn btn-click">
                   <button type="button" className="btn btn-danger" onClick={this.handleSearch}>Search</button>
                   <button type="button" className="btn btn-warning" onClick={this.handleClear}>Clear</button>

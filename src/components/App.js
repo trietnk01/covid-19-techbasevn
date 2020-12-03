@@ -12,7 +12,7 @@ class App extends Component {
       <Router>
         <div className="container">		
         <div className="row">
-          <div className="col">	
+          <div className="col">	          
           <FormSearch />
         {this.showRoute(routes)}
         </div>
