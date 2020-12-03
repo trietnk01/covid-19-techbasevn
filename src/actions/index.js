@@ -5,3 +5,13 @@ export const actSearch = (query_country_name) => {
 		query_country_name
 	}
 }
+export const actShowNotify=()=>{	
+	return {
+		type:types.SHOW_NOTIFY		
+	}
+}
+export const actHideNotify=()=>{
+	return {
+		type:types.HIDE_NOTIFY		
+	}
+}

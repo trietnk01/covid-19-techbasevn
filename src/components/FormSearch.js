@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {actSearch} from "./../actions/index";
+import {actSearch,actShowNotify,actHideNotify} from "./../actions/index";
 class FormSearch extends Component {
 	constructor(props){
 		super(props);
@@ -18,6 +18,12 @@ class FormSearch extends Component {
 		this.props.goSearch("");
 		this.setState({country_name:""});
 	}				
+	handleShowNotify=()=>{		
+		this.props.showNotify();
+	}
+	handleHideNotify=()=>{		
+		this.props.hideNotify();
+	}
 	render(){										
 		return (
 			<form className="form-search">					
@@ -27,6 +33,8 @@ class FormSearch extends Component {
                 <div className="input-group-btn btn-click">
                   <button type="button" className="btn btn-danger" onClick={this.handleSearch}>Search</button>
                   <button type="button" className="btn btn-warning" onClick={this.handleClear}>Clear</button>
+				  <button type="button" className="btn btn-success" onClick={this.handleShowNotify}>Show</button>
+				  <button type="button" className="btn btn-danger" onClick={this.handleHideNotify}>Close</button>
                 </div>
               </div>
             </form>	
@@ -42,7 +50,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {		
         goSearch: (query_country_name) => {			
             dispatch(actSearch(query_country_name)) ;
-		}		
+		},		
+		showNotify:()=>{			
+			dispatch(actShowNotify());
+		},
+		hideNotify:()=>{
+			dispatch(actHideNotify());
+		}
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(FormSearch);

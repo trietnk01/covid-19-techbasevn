@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import FormSearch from "./../components/FormSearch";
+import Notification from "./../components/Notification";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,8 +13,9 @@ class App extends Component {
       <Router>
         <div className="container">		
         <div className="row">
-          <div className="col">	          
-          <FormSearch />
+          <div className="col">	                    
+          <FormSearch />          
+          <Notification />
         {this.showRoute(routes)}
         </div>
         </div>

@@ -46,7 +46,7 @@ class HomePage extends Component {
   }
 
 	render(){      
-      let {items}=this.state;                                 
+      let {items}=this.state;       
   return (    
     <div>                  
             <table className="table">
