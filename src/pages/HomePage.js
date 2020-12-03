@@ -1,54 +1,64 @@
 import React, {Component} from 'react';
-import Covid19DetailItem from "./../components/Covid19DetailItem";
 import {connect} from 'react-redux';
+import { trackPromise } from 'react-promise-tracker';
+import {actShowNotify,actHideNotify} from "./../actions/index";
+import {covid19API} from "./../api/covid19API";
 class HomePage extends Component {
   constructor(props){
     super(props);
     this.state={
-      items:[],
-      strDemo:""           
+      covid19Items:[],                
     }
   }  
-  showElementBody(items){
+  showCovid19List(items){
     let xhtml=null;
     if(items.length > 0){
-      xhtml=items.map((phantu,index)=>{
-        return (
-          <Covid19DetailItem key={index} phantu={phantu} index={index} />
+      xhtml=items.map((covid19Item,index)=>{
+        return (                   
+          <tr key={index}>
+          <td >{covid19Item.Cases}</td>
+          <td >{covid19Item.City}</td>
+          <td >{covid19Item.CityCode}</td>
+          <td >{covid19Item.Country}</td>
+          <td >{covid19Item.CountryCode}</td>
+          <td >{covid19Item.Date}</td>
+          <td >{covid19Item.Lat}</td>
+          <td >{covid19Item.Lon}</td>
+          <td >{covid19Item.Province}</td>
+          <td >{covid19Item.Status}</td>
+        </tr>
         );
       });
     }
     return xhtml;
   }
-  setCovid19data(ctSlug){  
-    let data=[];         
-    if(ctSlug !== ""){       
-      let url ='https://api.covid19api.com/country/'+ctSlug+'/status/confirmed';      
-      fetch(url)
-      .then((response)=>response.json())
-      .then((responseData)=>{
-      responseData.map((item,index)=>{
-        data.push({item});
-      });        
-      this.setState({items:data});
-    }); 
-    }else{
-      this.setState({items:[]});
-    }   
+  setCovid19data(countrySlug){      
+    let data=[];
+    let url="https://api.covid19api.com/country/"+countrySlug+"/status/confirmed";
+    trackPromise(
+      covid19API.fetchCovid19(url)
+        .then((covid19DataResponse) => {
+          data =covid19DataResponse.map((item,index)=>{            
+            return item;
+          });
+          this.setState({covid19Items:data});                    
+        })
+    );           
   }
   componentWillMount(){    
     let {query_country_name}=this.props;
     this.setCovid19data(query_country_name);     
   }
   componentWillReceiveProps(nextProps) {     
-    let {query_country_name}=nextProps;  
+    let {query_country_name}=nextProps; 
+     
     this.setCovid19data(query_country_name);  
   }
 
 	render(){      
-      let {items}=this.state;       
+      let {covid19Items}=this.state;              
   return (    
-    <div>                  
+    <div>                               
             <table className="table">
         <thead className="thead-dark">
           <tr>
@@ -65,7 +75,7 @@ class HomePage extends Component {
           </tr>
         </thead>
         <tbody>          
-        {this.showElementBody(items)}
+        {this.showCovid19List(covid19Items)}
         </tbody>
       </table>
     </div>
@@ -77,4 +87,14 @@ const mapStateToProps = state => {
       query_country_name: state.search,
   }
 }
-export default connect(mapStateToProps,null)(HomePage);
+const mapDispatchToProps = (dispatch, ownProps) => {	
+  return {		      	
+    showNotify:()=>{			
+      dispatch(actShowNotify());
+    },
+    hideNotify:()=>{
+      dispatch(actHideNotify());
+    }
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(HomePage);
