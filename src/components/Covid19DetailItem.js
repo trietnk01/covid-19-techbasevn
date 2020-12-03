@@ -6,7 +6,7 @@ class Covid19DetailItem extends Component {
 	}	
 	render(){
 		let {phantu}=this.props;
-		let item=phantu.item;				
+    let item=phantu.item;		    
 		return (
 			<tr>
           <td >{item.Cases}</td>

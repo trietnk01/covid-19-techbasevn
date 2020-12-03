@@ -5,7 +5,8 @@ class HomePage extends Component {
   constructor(props){
     super(props);
     this.state={
-      items:[],           
+      items:[],
+      strDemo:""           
     }
   }  
   showElementBody(items){
@@ -35,16 +36,17 @@ class HomePage extends Component {
       this.setState({items:[]});
     }   
   }
-  componentWillMount(){
+  componentWillMount(){    
     let {query_country_name}=this.props;
-    this.setCovid19data(query_country_name);    
-}
-componentWillReceiveProps(nextProps) {  
-  let {query_country_name}=nextProps;  
-  this.setCovid19data(query_country_name);
-}
+    this.setCovid19data(query_country_name);     
+  }
+  componentWillReceiveProps(nextProps) {     
+    let {query_country_name}=nextProps;  
+    this.setCovid19data(query_country_name);  
+  }
+
 	render(){      
-      let {items}=this.state;                 
+      let {items}=this.state;                                 
   return (    
     <div>                  
             <table className="table">
