@@ -10,12 +10,12 @@ class HomePage extends Component {
       covid19Items:[],                
     }
   }  
-  showCovid19List(items){
+  showCovid19List(covid19Items){
     let xhtml=null;
-    if(items.length > 0){
-      xhtml=items.map((covid19Item,index)=>{
-        return (                   
-          <tr key={index}>
+    if(covid19Items.length > 0){
+      xhtml=covid19Items.map((covid19Item,index)=>{
+        return (
+          <tr key={index}>            
           <td >{covid19Item.Cases}</td>
           <td >{covid19Item.City}</td>
           <td >{covid19Item.CityCode}</td>
@@ -25,41 +25,12 @@ class HomePage extends Component {
           <td >{covid19Item.Lat}</td>
           <td >{covid19Item.Lon}</td>
           <td >{covid19Item.Province}</td>
-          <td >{covid19Item.Status}</td>
-        </tr>
-        );
+          <td >{covid19Item.Status}</td>        
+          </tr>
+        )
       });
-    }
-    return xhtml;
-  }
-  setCovid19data(countrySlug){      
-    let data=[];
-    let url="https://api.covid19api.com/country/"+countrySlug+"/status/confirmed";
-    trackPromise(
-      covid19API.fetchCovid19(url)
-        .then((covid19DataResponse) => {
-          data =covid19DataResponse.map((item,index)=>{            
-            return item;
-          });
-          this.setState({covid19Items:data});                    
-        })
-    );           
-  }
-  componentWillMount(){    
-    let {query_country_name}=this.props;
-    this.setCovid19data(query_country_name);     
-  }
-  componentWillReceiveProps(nextProps) {     
-    let {query_country_name}=nextProps; 
-     
-    this.setCovid19data(query_country_name);  
-  }
-
-	render(){      
-      let {covid19Items}=this.state;              
-  return (    
-    <div>                               
-            <table className="table">
+      return (
+        <table className="table">
         <thead className="thead-dark">
           <tr>
             <th scope="col">Cases</th>
@@ -75,9 +46,47 @@ class HomePage extends Component {
           </tr>
         </thead>
         <tbody>          
-        {this.showCovid19List(covid19Items)}
+          {xhtml}
         </tbody>
-      </table>
+        </table>
+      )
+    }else{
+      return (
+        <h3 className="text-center">No data</h3>
+      )
+    }
+  }
+  setCovid19data(countrySlug){      
+    
+    if(countrySlug !== ""){
+      let data=[];
+      let url="https://api.covid19api.com/country/"+countrySlug+"/status/confirmed";
+    trackPromise(
+      covid19API.fetchCovid19(url)
+        .then((covid19DataResponse) => {
+          data =covid19DataResponse.map((item,index)=>{            
+            return item;
+          });
+          this.setState({covid19Items:data});                    
+        })   
+    );
+    }  else{
+      this.setState({covid19Items:[]});                    
+    }       
+  }
+  componentWillMount(){    
+    let {query_country_name}=this.props;
+    this.setCovid19data(query_country_name);     
+  }
+  componentWillReceiveProps(nextProps) {     
+    let {query_country_name}=nextProps;      
+    this.setCovid19data(query_country_name);  
+  }
+	render(){      
+      let {covid19Items}=this.state;        
+  return (    
+    <div>                                     
+            {this.showCovid19List(covid19Items)}
     </div>
   );
   }

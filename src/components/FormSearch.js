@@ -28,7 +28,8 @@ class FormSearch extends Component {
 		return (
 			<form className="form-search">					
               <div className="form-group">	
-			  <div>Gõ chữ south-africa / china / palestine</div>					
+			  <h1 className="text-center covid19-title">COVID19 API TECHBASEVN TEST</h1>
+			  <h6>Please type slug keyword of country : south-africa / china / palestine</h6>				
                 <input name="country_name" value={this.state.country_name} onChange={this.handleChange} type="text" className="form-control" placeholder="Enter slug of country ..." />
                 <div className="input-group-btn btn-click">
                   <button type="button" className="btn btn-danger" onClick={this.handleSearch}>Search</button>
