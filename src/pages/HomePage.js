@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { trackPromise } from 'react-promise-tracker';
 import {actShowNotify,actHideNotify} from "./../actions/index";
 import {covid19API} from "./../api/covid19API";
+import {LoadingSpinnerComponent} from "./../components/LoadingSpinnerComponent";
 class HomePage extends Component {
   constructor(props){
     super(props);
@@ -10,7 +11,7 @@ class HomePage extends Component {
       covid19Items:[],                
     }
   }  
-  showCovid19List(covid19Items){
+  showCovid19List(covid19Items){        
     let xhtml=null;
     if(covid19Items.length > 0){
       xhtml=covid19Items.map((covid19Item,index)=>{
@@ -62,11 +63,15 @@ class HomePage extends Component {
       let url="https://api.covid19api.com/country/"+countrySlug+"/status/confirmed";
     trackPromise(
       covid19API.fetchCovid19(url)
-        .then((covid19DataResponse) => {
-          data =covid19DataResponse.map((item,index)=>{            
-            return item;
-          });
-          this.setState({covid19Items:data});                    
+        .then((covid19DataResponse) => {          
+          if(covid19DataResponse.message == null){
+            data =covid19DataResponse.map((item,index)=>{            
+              return item;
+            });
+            this.setState({covid19Items:data});                    
+          }else{
+            this.setState({covid19Items:[]});                    
+          }          
         })   
     );
     }  else{
@@ -84,7 +89,8 @@ class HomePage extends Component {
 	render(){      
       let {covid19Items}=this.state;        
   return (    
-    <div>                                     
+    <div>        
+      <LoadingSpinnerComponent />                                 
             {this.showCovid19List(covid19Items)}
     </div>
   );
